@@ -3,9 +3,9 @@ public class Main {
         System.out.println("Hello world");
         Point p = new Point();
 
-        p.x = 5F;
-        p.y = 7.5F;
+        p.x = 50F;
+        p.y = 75.5F;
 
-        System.out.println(p.toString());
+        System.out.println(p.toSvg());
     }
 }
