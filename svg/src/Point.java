@@ -8,6 +8,10 @@ public class Point {
         this.x = 0;
         this.y = 0;
     }
+    public Point(Point p){
+        this.x = p.x;
+        this.y = p.y;
+    }
     public Point(float x, float y){
         this.x = x;
         this.y = y;
