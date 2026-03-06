@@ -9,7 +9,9 @@ public class Main {
 
         Polygon p1 = new Polygon(points);
         System.out.println(p1);
-        System.out.println(p1.toSvg());
+        points[0].setX(0);
+        System.out.println(p1);
+
     }
 
 }
