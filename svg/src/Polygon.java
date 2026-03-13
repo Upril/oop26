@@ -1,10 +1,12 @@
 import java.util.Arrays;
 import java.util.Locale;
 
-public class Polygon {
+public class Polygon extends Shape {
     private Point[] points;
-    private Style style;
+//    private Style style;
+
     public Polygon(Point[] points, Style style){
+        super(style);
         this.points = new Point[points.length];
 
         this.style = style;
