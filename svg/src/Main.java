@@ -21,6 +21,12 @@ public class Main {
         scene.addPolygon(p1);
         scene.addPolygon(p2);
         System.out.println(scene.toSvg());
+
+        scene.addPolygon(Polygon.square(new Segment(
+                new Point(130.0f, 100.0f),
+                new Point(100.0f, 140.0f)
+        ), new Style("red", "green", 3.0)));
+
         scene.save("out.svg");
 
         System.out.println(p1.boundingBox());
