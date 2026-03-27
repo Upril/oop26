@@ -28,7 +28,9 @@ public class Main {
         System.out.println(parent.adopt(child));
         System.out.println(parent.adopt(child));
         System.out.println(parent.adopt(parent));
+        parent.adopt(people.get(2));
 
         System.out.println(parent.getYoungestChild());
+        System.out.println(parent.getChildren());
     }
 }
