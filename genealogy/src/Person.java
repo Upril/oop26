@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class Person {
@@ -17,6 +19,32 @@ public class Person {
     public boolean adopt(Person child){
         if(child == this) return false;
         return children.add(child);
+    }
+
+    public Person getYoungestChild(){
+//        Iterator<Person> iter = this.children.iterator();
+//        Person now = iter.next();
+//        Person youngest = now;
+//
+//        while (true){
+//            if(youngest.birthday.compareTo(now.birthday) < 0){
+//                youngest = now;
+//            }
+//            try {
+//                iter.next();
+//            } catch (NoSuchElementException e){
+//                break;
+//            }
+//        }
+        if( this.children.isEmpty() ) return null;
+
+        Person youngest = children.iterator().next();
+        for (Person person : children){
+            if(youngest.birthday.compareTo(person.birthday) < 0){
+                youngest = person;
+            }
+        }
+        return youngest;
     }
 
     @Override

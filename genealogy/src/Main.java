@@ -29,6 +29,6 @@ public class Main {
         System.out.println(parent.adopt(child));
         System.out.println(parent.adopt(parent));
 
-        System.out.println(people);
+        System.out.println(parent.getYoungestChild());
     }
 }
