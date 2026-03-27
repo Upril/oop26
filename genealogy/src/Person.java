@@ -52,6 +52,9 @@ public class Person implements Comparable<Person> {
 //        return result;
         return children.stream().sorted().toList();
     }
+    public String name(){
+        return String.format("%s %s",firstName, lastName);
+    }
 
     @Override
     public int compareTo(Person other){
