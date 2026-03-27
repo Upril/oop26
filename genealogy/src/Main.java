@@ -34,11 +34,13 @@ public class Main {
         System.out.println(parent.getChildren());
 
         Family family = new Family();
-        for(Person person : people){
-            family.add(person);
-        }
+        family.add(people.get(0));
+        family.add(people.get(1), people.get(2));
+        family.add(new Person(
+                "Mike",
+                "Tyson",
+                LocalDate.of(1990, 1,1)));
 
-        Person mike = family.get("Mike Tyson");
-        System.out.println(mike);
+        System.out.println(family.get("Mike Tyson"));
     }
 }
