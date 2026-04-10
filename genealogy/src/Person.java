@@ -13,14 +13,18 @@ public class Person implements Comparable<Person> {
 
     private Set<Person> children = new HashSet<>();
 
-    public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) {
+    public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) throws NegativeLifespanException {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.death = death;
+
+        if(this.death != null && this.birthday.isAfter(this.death)){
+            throw new NegativeLifespanException(this);
+        }
     }
 
-    public Person(String firstName, String lastName, LocalDate birthday){
+    public Person(String firstName, String lastName, LocalDate birthday) throws NegativeLifespanException {
         this(firstName, lastName,birthday,null);
     }
 
@@ -64,7 +68,7 @@ public class Person implements Comparable<Person> {
         return children.stream().sorted().toList();
     }
 
-    public static Person fromCsvLine(String line){
+    public static Person fromCsvLine(String line) throws NegativeLifespanException {
         String[] columns = line.split(",", -1);
         String fullName = columns[0];
         String[] name = fullName.split(" ");
@@ -86,11 +90,20 @@ public class Person implements Comparable<Person> {
         file.readLine();
         String line;
         while ((line = file.readLine()) != null){
-            people.add(fromCsvLine(line));
+            try {
+                people.add(fromCsvLine(line));
+            } catch (NegativeLifespanException e) {
+                System.err.println(e.getMessage());
+            }
         }
 
         file.close();
         return people;
+    }
+
+    public String negativeLifespanExceptoinMessage(){
+        return String.format("Osoba %s %s ma date smierci %s wczesniejsza niz data urodzenia %s",
+                this.firstName, this.lastName, this.death, this.birthday);
     }
 
     public String name(){
