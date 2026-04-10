@@ -91,8 +91,14 @@ public class Person implements Comparable<Person> {
         String line;
         while ((line = file.readLine()) != null){
             try {
-                people.add(fromCsvLine(line));
-            } catch (NegativeLifespanException e) {
+                Person newPerson = fromCsvLine(line);
+                for (Person person : people){
+                    if(person.name().equals(newPerson.name())){
+                        throw new AmbiguousPersonException(person, newPerson);
+                    }
+                }
+                people.add(newPerson);
+            } catch (NegativeLifespanException | AmbiguousPersonException e) {
                 System.err.println(e.getMessage());
             }
         }
