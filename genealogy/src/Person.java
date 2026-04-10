@@ -1,18 +1,26 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Person implements Comparable<Person> {
     private String firstName;
     private String lastName;
     private LocalDate birthday;
+    private LocalDate death;
 
     private Set<Person> children = new HashSet<>();
 
-    public Person(String firstName, String lastName, LocalDate birthday) {
+    public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
+        this.death = death;
     }
+
+    public Person(String firstName, String lastName, LocalDate birthday){
+        this(firstName, lastName,birthday,null);
+    }
+
     public boolean adopt(Person child){
         if(child == this) return false;
         return children.add(child);
@@ -52,6 +60,24 @@ public class Person implements Comparable<Person> {
 //        return result;
         return children.stream().sorted().toList();
     }
+
+    public static Person fromCsvLine(String line){
+        String[] columns = line.split(",", -1);
+        String fullName = columns[0];
+        String[] name = fullName.split(" ");
+        String fname = name[0];
+        String lname = name[1];
+        String birth = columns[1];
+        String death = columns[2];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.y");
+        LocalDate birthdate = LocalDate.parse(birth,formatter);
+        LocalDate deathdate = null;
+        if(!death.isEmpty()){
+            deathdate = LocalDate.parse(death,formatter);
+        }
+        return new Person(fname, lname, birthdate, deathdate);
+    }
+
     public String name(){
         return String.format("%s %s",firstName, lastName);
     }
@@ -67,6 +93,7 @@ public class Person implements Comparable<Person> {
                 " firstName='" + firstName + '\'' +
                 " lastName='" + lastName + '\'' +
                 " birthday=" + birthday +
+                " death=" + death +
                 " children= " + children +
                 '}';
     }
