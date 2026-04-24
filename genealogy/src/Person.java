@@ -1,11 +1,9 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, Serializable {
     private String firstName;
     private String lastName;
     private LocalDate birthday;
@@ -111,6 +109,21 @@ public class Person implements Comparable<Person> {
 
     public String name(){
         return String.format("%s %s",firstName, lastName);
+    }
+
+    public static void toBinaryFile(List<Person> people, String path) throws IOException {
+        FileOutputStream fos = new FileOutputStream(path);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(people);
+        oos.close();
+    }
+
+    public static List<Person> fromBinaryFile(String path) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(path);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        List<Person> people = (ArrayList<Person>) ois.readObject();
+        ois.close();
+        return people;
     }
 
     @Override
