@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Person implements Comparable<Person>, Serializable {
     private String firstName;
@@ -10,6 +11,7 @@ public class Person implements Comparable<Person>, Serializable {
     private LocalDate death;
 
     private Set<Person> children = new HashSet<>();
+    private Set<Person> parents = new HashSet<>();
 
     public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) throws NegativeLifespanException {
         this.firstName = firstName;
@@ -124,6 +126,41 @@ public class Person implements Comparable<Person>, Serializable {
         List<Person> people = (ArrayList<Person>) ois.readObject();
         ois.close();
         return people;
+    }
+
+    public String toPlantUml(){
+        StringBuilder sb = new StringBuilder();
+        String myId = name().replace(" ", "_");
+        sb.append(String.format("object \"%s\" as %s \n", name(), myId));
+
+        for (Person p : parents){
+            String parentId = p.name()
+                    .replace(" ", "_");
+            sb.append(parentId).append(" <|--").append(myId).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public static String generateTree(List<Person> people){
+        Set<Person> objects = new HashSet<>();
+        for(Person person : people){
+            objects.add(person);
+            objects.addAll(person.children);
+        }
+
+        String objectsString = objects.stream()
+                .map(person -> String.format("object \"%s\"",person.name()))
+                .collect(Collectors.joining("\n"));
+
+        String relationsString = objects.stream()
+                .flatMap(parent -> parent.getChildren().stream()
+                        .map(child ->
+                                String.format("\"%s\" <|-- \"%s\"",parent.name(), child.name()))
+                )
+                .collect(Collectors.joining("\n"));
+
+        return String.format("@startuml\n%s\n%s\n@enduml", objectsString, relationsString);
     }
 
     @Override
