@@ -9,9 +9,10 @@ public class Main {
             List<Person> people = Person.fromCsv("family.csv");
             PlantUmlRunner.setJarPath("C:/Users/student/Downloads/plantuml-java8-SNAPSHOT.jar");
             //PlantUmlRunner.generate(Person.generateTree(people), "output", "test");
-            List<Person> sorted = Person.sorted(people);
+            //List<Person> sorted = Person.sorted(people);
+            List<Person> sortedDead = Person.getDeceasedByLifespan(people);
 
-            sorted.stream()
+            sortedDead.stream()
                     .map(Person::name)
                     .forEach(System.out::println);
 
