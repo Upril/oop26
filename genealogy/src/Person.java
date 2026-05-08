@@ -168,6 +168,13 @@ public class Person implements Comparable<Person>, Serializable {
                 .toList();
     }
 
+    public static Person getOldestLiving(List<Person> people){
+        return people.stream()
+                .filter(person -> person.death == null)
+                .min(Comparator.comparing(person -> person.birthday))
+                .orElse(null);
+    }
+
     public static String generateTree(List<Person> people){
         Set<Person> objects = new HashSet<>();
         for(Person person : people){

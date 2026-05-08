@@ -10,11 +10,13 @@ public class Main {
             PlantUmlRunner.setJarPath("C:/Users/student/Downloads/plantuml-java8-SNAPSHOT.jar");
             //PlantUmlRunner.generate(Person.generateTree(people), "output", "test");
             //List<Person> sorted = Person.sorted(people);
-            List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+            //List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+            Person p = Person.getOldestLiving(people);
+            System.out.println(p);
 
-            sortedDead.stream()
-                    .map(Person::name)
-                    .forEach(System.out::println);
+//            sortedDead.stream()
+//                    .map(Person::name)
+//                    .forEach(System.out::println);
 
         } catch (IOException e) {
             System.err.println("Błąd dostępu do pliku" + e.getMessage());
