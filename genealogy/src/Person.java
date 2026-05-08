@@ -142,6 +142,13 @@ public class Person implements Comparable<Person>, Serializable {
         return sb.toString();
     }
 
+    public static List<Person> filterPersonbySubstring(List<Person> people,
+                                                       String substring){
+        return people.stream()
+                .filter(person -> person.name().contains(substring))
+                .collect(Collectors.toList());
+    }
+
     public static String generateTree(List<Person> people){
         Set<Person> objects = new HashSet<>();
         for(Person person : people){
