@@ -9,9 +9,9 @@ public class Main {
             List<Person> people = Person.fromCsv("family.csv");
             PlantUmlRunner.setJarPath("C:/Users/student/Downloads/plantuml-java8-SNAPSHOT.jar");
             //PlantUmlRunner.generate(Person.generateTree(people), "output", "test");
-            List<Person> filtered = Person.filterPersonbySubstring(people, "ska");
+            List<Person> sorted = Person.sorted(people);
 
-            filtered.stream()
+            sorted.stream()
                     .map(Person::name)
                     .forEach(System.out::println);
 
