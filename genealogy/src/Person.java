@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Person implements Comparable<Person>, Serializable {
@@ -175,15 +177,24 @@ public class Person implements Comparable<Person>, Serializable {
                 .orElse(null);
     }
 
-    public static String generateTree(List<Person> people){
+    public static String generateTree(List<Person> people, Function<String, String> func,
+                                      Predicate<Person> condition){
         Set<Person> objects = new HashSet<>();
         for(Person person : people){
             objects.add(person);
             objects.addAll(person.children);
         }
 
-        String objectsString = objects.stream()
+        Map<Boolean, List<Person>> passOrFail = people.stream()
+                .collect(Collectors.partitioningBy(condition));
+
+        String deadString = passOrFail.get(false).stream()
                 .map(person -> String.format("object \"%s\"",person.name()))
+                .collect(Collectors.joining("\n"));
+
+        String livingString = passOrFail.get(true).stream()
+                .map(person -> String.format("object \"%s\"", person.name()))
+                .map(func)
                 .collect(Collectors.joining("\n"));
 
         String relationsString = objects.stream()
@@ -193,7 +204,7 @@ public class Person implements Comparable<Person>, Serializable {
                 )
                 .collect(Collectors.joining("\n"));
 
-        return String.format("@startuml\n%s\n%s\n@enduml", objectsString, relationsString);
+        return String.format("@startuml\n%s\n%s\n%s\n@enduml", deadString, livingString, relationsString);
     }
 
     @Override

@@ -7,10 +7,18 @@ public class Main {
     public static void main(String[] args){
         try {
             List<Person> people = Person.fromCsv("family.csv");
+
+            List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+
             PlantUmlRunner.setJarPath("C:/Users/student/Downloads/plantuml-java8-SNAPSHOT.jar");
-            //PlantUmlRunner.generate(Person.generateTree(people), "output", "test");
+            PlantUmlRunner.generate(Person.generateTree(
+                                                people,
+                                                text -> String.format("%s #FFFF00", text),
+                                                sortedDead::contains),
+                    "output",
+                    "test");
             //List<Person> sorted = Person.sorted(people);
-            //List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+            //
             Person p = Person.getOldestLiving(people);
             System.out.println(p);
 
