@@ -5,36 +5,19 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        try {
-            List<Person> people = Person.fromCsv("family.csv");
+        CustomList<String> list = new CustomList<>();
 
-            List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+        list.add("ala");
+        list.add("ma");
+        list.add("kota");
+        list.addFirst("Mala");
 
-            PlantUmlRunner.setJarPath("C:/Users/student/Downloads/plantuml-java8-SNAPSHOT.jar");
-            PlantUmlRunner.generate(Person.generateTree(
-                                                people,
-                                                text -> String.format("%s #FFFF00", text),
-                                                sortedDead::contains),
-                    "output",
-                    "test");
-            //List<Person> sorted = Person.sorted(people);
-            //
-            Person p = Person.getOldestLiving(people);
-            System.out.println(p);
+        System.out.println("Element pod indeksem 1: " + list.get(1));
+        System.out.println("Rozmiar listy: " + list.size());
 
-//            sortedDead.stream()
-//                    .map(Person::name)
-//                    .forEach(System.out::println);
-
-        } catch (IOException e) {
-            System.err.println("Błąd dostępu do pliku" + e.getMessage());
+        while (list.size() > 0){
+            System.out.println("Usuwam: " + list.removeLast());
         }
-
-
-
-//        https://plantuml.com/sequence-diagram
-
-
 
     }
 }
