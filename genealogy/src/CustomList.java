@@ -3,7 +3,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-public class CustomList<T> extends AbstractList<T> {
+public class CustomList <T> extends AbstractList<T> {
+
     private Node<T> head = null;
     private Node<T> tail = null;
 
@@ -17,21 +18,19 @@ public class CustomList<T> extends AbstractList<T> {
         tail = current;
     }
     public T getLast(){
-        try {
+        try{
             return tail.value;
         } catch (NullPointerException e){
             throw new NoSuchElementException(e);
         }
     }
-
     public void addFirst(T value){
         Node<T> current = new Node<>(value,head);
         head = current;
-        if( tail == null ){
+        if (tail == null){
             tail = current;
         }
     }
-
     public T getFirst(){
         try {
             return head.value;
@@ -39,7 +38,6 @@ public class CustomList<T> extends AbstractList<T> {
             throw new NoSuchElementException(e);
         }
     }
-
     public T removeFirst(){
         if (head == null){
             throw new NoSuchElementException();
@@ -56,9 +54,9 @@ public class CustomList<T> extends AbstractList<T> {
             throw new NoSuchElementException();
         }
         Node<T> current = head;
-        if( head == tail ){
-            head = null;
+        if (head == tail){
             tail = null;
+            head = null;
             return current.value;
         } else {
             while (current.next != tail){
@@ -71,16 +69,15 @@ public class CustomList<T> extends AbstractList<T> {
         }
     }
 
-
     @Override
-    public T get(int index) {
-        if(index == 0){
+    public T get(int i) {
+        if (i == 0){
             if(head == null) return null;
             return head.value;
         } else {
             Node<T> current = head;
-            for (int j = 0; j < index; j++){
-                if (current.next == null) return null;
+            for (int j=0; j<i; j++){
+                if(current.next == null) return null;
                 current = current.next;
             }
             return current.value;
@@ -96,20 +93,20 @@ public class CustomList<T> extends AbstractList<T> {
             int i = 1;
             while (current.next != null){
                 current = current.next;
-                i += 1;
+                i+=1;
             }
             return i;
         }
     }
 
     @Override
-    public boolean add(T t){
+    public boolean add(T t) {
         addLast(t);
         return true;
     }
 
     @Override
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new Iterator<T>() {
             private Node<T> current = head;
             @Override
@@ -127,7 +124,7 @@ public class CustomList<T> extends AbstractList<T> {
     }
 
     @Override
-    public Stream<T> stream(){
+    public Stream<T> stream() {
         Stream.Builder<T> builder = Stream.builder();
         for (T value : this){
             builder.accept(value);
