@@ -3,7 +3,10 @@ package music;
 import java.util.ArrayList;
 
 public class Playlist extends ArrayList<Song> {
-    public Song atSecond(int second){
+    public Song atSecond(int second) throws IndexOutOfBoundsException {
+        if (second < 0){
+            throw new IndexOutOfBoundsException("Ujemny czas");
+        }
         int offset = 0;
         for (Song song : this){
             int end = offset + song.getLength();
@@ -13,6 +16,6 @@ public class Playlist extends ArrayList<Song> {
                 offset = end;
             }
         }
-        return null;
+        throw new IndexOutOfBoundsException("Zbyt duży czas");
     }
 }

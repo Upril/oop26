@@ -2,8 +2,7 @@ import music.Playlist;
 import music.Song;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlaylistTest {
     @Test
@@ -53,5 +52,26 @@ public class PlaylistTest {
         assertEquals(song2, playlist.atSecond(200));
         assertEquals(song3, playlist.atSecond(300));
     }
+    private IndexOutOfBoundsException doesThrowExceptionCommon(int seconds){
+        Playlist playlist = new Playlist();
+        Song song1 = new Song("John Doe", "Test1", 100);
+        Song song2 = new Song("Mary Sue", "Test2", 150);
+        Song song3 = new Song("Marty Sue", "Test3", 200);
 
+        playlist.add(song1); // 0-100
+        playlist.add(song2); // 100-250
+        playlist.add(song3); // 250-450
+
+        return assertThrows(IndexOutOfBoundsException.class, () -> playlist.atSecond(seconds));
+    }
+    @Test
+    public void testDoesThrowException(){
+        assertEquals("Zbyt duży czas",
+                doesThrowExceptionCommon(1500).getMessage());
+    }
+    @Test
+    public void testDoesThrowNegativeException(){
+        assertEquals("Ujemny czas",
+                doesThrowExceptionCommon(-1000).getMessage());
+    }
 }
