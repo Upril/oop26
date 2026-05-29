@@ -25,4 +25,16 @@ public class PlaylistTest {
         assertTrue(playlist.contains(song));
     }
 
+    @Test
+    public void testEqualElement(){
+        Playlist playlist = new Playlist();
+        Song song = new Song("Jan Kowalski", "Test", 183);
+        Song sameSong = new Song("Jan Kowalski", "Test", 183);
+
+        playlist.add(song);
+
+        assertTrue(playlist.contains(sameSong));
+        assertEquals(playlist.get(0), sameSong);
+    }
+
 }
