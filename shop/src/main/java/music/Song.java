@@ -1,4 +1,4 @@
 package music;
 
-public record Song(String artist, String title, int lenght) {
+public record Song(String artist, String title, int length) {
 }
