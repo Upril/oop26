@@ -1,6 +1,12 @@
 package music;
 
+import database.DatabaseConnection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Song {
     private String artist;
@@ -37,4 +43,31 @@ public class Song {
     public int hashCode() {
         return Objects.hash(artist, title, length);
     }
+
+    public static class Persistence {
+        public static Optional<Song> read(int index) throws SQLException {
+            String sql = "SELECT title, artist, length FROM song WHERE id = ?";
+            PreparedStatement statement = DatabaseConnection
+                    .getConnection()
+                    .prepareStatement(sql);
+            statement.setInt(1, index);
+
+            if(!statement.execute()){
+                throw new RuntimeException("SELECT failed");
+            }
+
+            ResultSet result = statement.getResultSet();
+            if(result.next()){
+                Song song = new Song(
+                        result.getString("artist"),
+                        result.getString("title"),
+                        result.getInt("length")
+                );
+                return Optional.of(song);
+            } else {
+                return Optional.empty();
+            }
+        }
+    }
+
 }
