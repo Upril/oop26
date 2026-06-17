@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Arrays;
 
 public class ClientHandler implements Runnable {
-    private final String login;
+    private String login;
     private final Socket socket;
     private final Server server;
     private final BufferedReader reader;
@@ -19,8 +19,6 @@ public class ClientHandler implements Runnable {
         this.server = server;
         this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.writer = new PrintWriter(socket.getOutputStream(), true);
-
-        this.login = reader.readLine();
     }
 
     public String getLogin() {
@@ -33,8 +31,11 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        String message;
         try {
+            this.login = reader.readLine();
+            System.out.println("Login: "+this.login);
+
+            String message;
             while ((message = reader.readLine()) != null){
                 if(message.startsWith("/")){
 
