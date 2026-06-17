@@ -19,6 +19,9 @@ public class ClientHandler implements Runnable {
         this.server = server;
         this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.writer = new PrintWriter(socket.getOutputStream(), true);
+
+        this.login = reader.readLine();
+        System.out.println("Login: "+this.login);
     }
 
     public String getLogin() {
@@ -27,13 +30,13 @@ public class ClientHandler implements Runnable {
 
     public void send(String message){
         writer.println(message);
+        System.out.println(message);
     }
 
     @Override
     public void run() {
         try {
-            this.login = reader.readLine();
-            System.out.println("Login: "+this.login);
+
 
             String message;
             while ((message = reader.readLine()) != null){
@@ -54,7 +57,7 @@ public class ClientHandler implements Runnable {
                         }
                     }
                 }
-                server.broadcast(login + ": "+ message, this);
+                server.broadcast(message, this);
             }
             socket.close();
         } catch (IOException e){

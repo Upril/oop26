@@ -10,7 +10,9 @@ public class MainWindow extends JFrame {
     private JTextField inputField;
     private JButton sendButton;
 
-    public MainWindow(String login){
+    private Client client;
+
+    public MainWindow(String login, Client client){
         this.setTitle(login);
         this.setMinimumSize(new Dimension(800, 600));
 
@@ -19,6 +21,8 @@ public class MainWindow extends JFrame {
 
         this.pack();
 
+        this.client = client;
+
         sendButton.addActionListener(actionEvent -> send());
         inputField.addActionListener(actionEvent -> send());
     }
@@ -26,7 +30,8 @@ public class MainWindow extends JFrame {
     private void send(){
         String message = inputField.getText();
         if (message.isEmpty()) return;
-        chatArea.append(message + "\n");
+        chatArea.append(message + "\n"); // placeholder
+        client.send(message);
         inputField.setText("");
     }
 }

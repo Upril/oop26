@@ -20,7 +20,7 @@ public class Server {
         while (true){
             Socket socket = serverSocket.accept();
             ClientHandler handler = new ClientHandler(socket, this);
-            System.out.println("Client connected");
+            //System.out.println("Client connected");
 
             Thread thread = new Thread(handler);
             thread.start();
@@ -46,7 +46,7 @@ public class Server {
 
     public void broadcast(String message, ClientHandler sender){
         handlers.values().stream()
-                .filter(reciever -> reciever != sender)
+                //.filter(reciever -> reciever != sender)
                 .forEach(handler -> handler.send(signMessage(message,sender)));
     }
 }
