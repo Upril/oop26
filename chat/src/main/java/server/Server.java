@@ -35,9 +35,17 @@ public class Server {
         sender.send("Users online: \n" + userList);
     }
 
+    public String signMessage(String message, ClientHandler sender){
+        return String.format("%s: %s",sender.getLogin(), message);
+    }
+
+    public void whisper(String message, ClientHandler sender, String recipient){
+        handlers.get(recipient).send(signMessage(message, sender));
+    }
+
     public void broadcast(String message, ClientHandler sender){
         handlers.values().stream()
                 .filter(reciever -> reciever != sender)
-                .forEach(handler -> handler.send(message));
+                .forEach(handler -> handler.send(signMessage(message,sender)));
     }
 }
